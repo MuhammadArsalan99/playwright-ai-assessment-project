@@ -29,11 +29,11 @@ npx playwright test --headed
 # Run only the smoke test
 npm run test:smoke
 
-# Audit, then run the suite (CI sets one worker)
+# Audit, then run the suite
 npm run test:ci
 ```
 
-The suite currently targets Chromium. It uses shared live-demo accounts, cart data, products, and order history, which can change between runs. Avoid parallel runs; checkout tests place real orders.
+The suite currently targets Chromium. It uses shared live-demo accounts, cart data, products, and order history, which can change between runs. Local full-suite runs use one worker to reduce interference; CI uses four workers. Checkout tests place real orders, and parallel tests may interfere through shared demo state.
 
 ## HTML Report
 

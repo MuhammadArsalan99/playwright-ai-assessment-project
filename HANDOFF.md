@@ -2,7 +2,7 @@
 
 ## Project State
 
-This is a Playwright JavaScript test suite against the live Practice Software Testing demo. The suite runs in Chromium and uses the HTML reporter. The app is shared and can change or retain user data between runs; run the full suite before reporting a final result.
+This is a Playwright JavaScript test suite against the live Practice Software Testing demo. The suite runs in Chromium and uses the HTML reporter. CI runs four Playwright workers; local full-suite runs should use one worker. The app is shared and can change or retain user data between runs, so CI parallelism may expose cart/account interference. Run the full suite before reporting a final result.
 
 ## Structure
 
