@@ -1,0 +1,21 @@
+{
+  "name": "busplanner_assessment",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+  "test:smoke": "playwright test tests/smoke.spec.js",
+  "test:headed": "playwright test --headed",
+  "report": "playwright show-report",
+  "audit": "node scripts/audit-rules.js",
+  "test": "playwright test",
+  "test:ci": "npm run audit && playwright test"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.4"
+  }
+}
