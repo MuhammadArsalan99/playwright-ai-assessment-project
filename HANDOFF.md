@@ -4,6 +4,10 @@
 
 This is a Playwright JavaScript test suite against the live Practice Software Testing demo. The suite runs in Chromium and uses the HTML reporter. CI and recommended local full-suite runs use one worker because tests share a customer account, cart, and order history. External users can still change demo state between runs. Run the full suite before reporting a final result.
 
+## Recorded Run
+
+`docs/final-run.txt` preserves a run of 35 tests using four workers: all 35 passed in 50.9 seconds.
+
 ## Structure
 
 - `tests/auth/login.spec.js`: valid and invalid login cases.

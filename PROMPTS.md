@@ -147,6 +147,7 @@ This file records prompts and corrections that affected the test design. Reusabl
 
 **Latest command:** `npx playwright test --workers=1 --reporter=list`
 **Result:** 35 passed, 0 failed, 0 skipped on 2026-10-07. `npm run audit` reported 0 findings across 20 files. This run followed the eco-filter wait fix.
+**Archived parallel run:** `docs/final-run.txt` records 35 tests with 4 workers; all 35 passed in 50.9 seconds.
 
 ---
 
