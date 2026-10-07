@@ -34,6 +34,12 @@ class CatalogPage {
 
   async filterEcoOnly() {
     await this.ecoFilter.check();
+    await expect
+      .poll(async () => {
+        const cards = await this.readCards().catch(() => []);
+        return cards.length > 0 && cards.every((card) => card.isEco);
+      }, { message: 'catalog should finish filtering to eco products' })
+      .toBe(true);
   }
 
   cardsWithEco() {

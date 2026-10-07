@@ -181,6 +181,7 @@
 ## Testability and risk notes
 
 - **Shared state.** Other people use the same accounts, the cart can change between runs, and the data resets. Tests pick products from the live grid by name after a stock check and assert only the rows they created.
+- **Asynchronous catalog filters.** The eco-filtered product grid updates after the checkbox changes. The test helper now waits until all displayed cards are eco products before choosing by name; the full serial suite passed after this wait was added.
 - **Every checkout run places a real order** and invoice on the public demo.
 - **Dynamic IDs.** Product, category and brand `data-test` values contain generated IDs, so they are never hard-coded.
 - **Two-step checkout.** "Check payment" and "Confirm" are the same `data-test="finish"` button, so tests check the label before each click.

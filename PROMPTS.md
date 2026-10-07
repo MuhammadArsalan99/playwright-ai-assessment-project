@@ -140,13 +140,13 @@ This file records prompts and corrections that affected the test design. Reusabl
 
 **Feedback:** Picking products by position is fragile on the shared demo, especially when stock and grid contents change.
 **Change:** `CatalogPage.pickInStock()` reads distinct in-stock product names, optionally filtered by eco status; `openProduct(name)` opens the matching card. Migrated the `atPayment` fixture and cart, eco-discount, featured-checkout, and negative-checkout tests to these helpers, with product-page name checks where the product details are read.
-**Follow-up:** The first serial run exposed a race after the eco filter changed. `pickInStock()` now polls until enough matching cards finish rendering. `npm run audit` then reported zero findings, and the focused eco suite passed all three tests.
+**Follow-up:** A later full run exposed that `pickInStock()` could read stale pre-filter cards immediately after the eco checkbox was checked. The selected name (`Long Nose Pliers`) was absent from the settled eco grid. `CatalogPage.filterEcoOnly()` now polls until all displayed cards are eco products before selection proceeds.
 **CI:** `.github/workflows/playwright.yml` runs the audit and Playwright tests with concurrency limited because tests place real orders on a shared demo.
 
 ## Final full run
 
-**Earlier result:** The user reported `npx playwright test` passing all 35 tests before the latest catalog-selection refactor.
-**Latest changes:** Audit passed with zero findings and the focused eco suite passed all three tests. A serial full run had [35 passed, 0 failed, 0 skipped on date].
+**Latest command:** `npx playwright test --workers=1 --reporter=list`
+**Result:** 35 passed, 0 failed, 0 skipped on 2026-10-07. `npm run audit` reported 0 findings across 20 files. This run followed the eco-filter wait fix.
 
 ---
 
