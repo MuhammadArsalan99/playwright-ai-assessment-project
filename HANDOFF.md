@@ -36,9 +36,9 @@ This is a Playwright JavaScript test suite against the live Practice Software Te
 
 ## Verified Behavior
 
-- Cart quantities `0` and `-5` normalize to `1`; oversized quantities show an alert stating the maximum is 99.
+- Cart quantities `0` and `-5` normalize to `1`; a very large quantity shows the maximum-order alert and is corrected to exactly `99` (focused cart test passed).
 - The eco discount is 5% and appears with an eco item at quantity 1; one non-eco item does not receive it. `ECO_DISCOUNT_MIN_ITEMS` is currently `1` based on focused tests.
-- One automated run showed an invoice address different from the checkout form; this was not reproduced by hand, so the cause is unconfirmed. The featured test currently checks that invoice address fields are populated, not that they match the form.
+- The focused featured test reproduced a street mismatch: the checkout form showed `Test street 654` while the invoice showed `Gulgowski Glens`. A separate manual run at normal typing speed showed matching values. The featured test checks that invoice fields are populated, not that they match the form.
 - The eco test rounds the subtotal after applying the discount rate, while `CartPage.checkSnapshot()` subtracts the displayed rounded discount. These can differ by one cent; resolve the expected rounding behavior and align both checks. See `OBSERVATIONS.md` for details.
 
 ## Next Checks
@@ -46,6 +46,5 @@ This is a Playwright JavaScript test suite against the live Practice Software Te
 - Reconfirm long-house-number validation and update the negative-address test: `postcode-lookup-error` was absent in one run while state stayed blank and checkout remained disabled.
 - Make `fillAddress()` wait for an actual lookup update, not merely non-empty street/city values.
 - Choose the cart rounding rule and align `CartPage.checkSnapshot()` with the eco-discount test.
-- Verify whether oversized quantity is reset to exactly 99 after its alert.
 - Check the cart's response to non-numeric quantity input.
 - Rerun the full suite after any changes and inspect the HTML report with `npx playwright show-report`.

@@ -71,9 +71,7 @@ test.describe('cart', () => {
     await cartPage.setQuantity(product.name, '999999999999999999');
 
     await expect(page.getByRole('alert', { name: /you can order at most 99 of/i })).toBeVisible();
-    await expect
-      .poll(async () => Number(await cartPage.rowFor(product.name).getByRole('spinbutton').inputValue()))
-      .toBeLessThanOrEqual(99);
+    await expect(cartPage.rowFor(product.name).getByRole('spinbutton')).toHaveValue('99');
     await cartPage.expectTotalsConsistent();
   });
 });

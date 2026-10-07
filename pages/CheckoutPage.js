@@ -78,14 +78,6 @@ class CheckoutPage {
     return (await this.invoiceNumber.innerText()).trim();
   }
 
-  async readAddress() {
-    const read = (field) => this.page.getByTestId(field).inputValue();
-    return {
-      street: await read('street'),
-      city: await read('city'),
-      postal_code: await read('postal_code'),
-    };
-  }
 }
 
 module.exports = { CheckoutPage };

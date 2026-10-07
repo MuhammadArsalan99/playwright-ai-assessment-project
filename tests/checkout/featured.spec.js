@@ -14,7 +14,6 @@ test('verified multi-item checkout', async ({
   const products = [];
   let invoice;
   let cartSnapshot;
-  let submittedAddress;
 
   // 1. Add two different products from their product pages
   await catalogPage.goto();
@@ -66,7 +65,6 @@ test('verified multi-item checkout', async ({
     await checkoutPage.proceed(1);
     await checkoutPage.proceed(2);
     await checkoutPage.fillAddress(ADDRESS);
-    submittedAddress = await checkoutPage.readAddress();
     await checkoutPage.proceed(3);
   });
 

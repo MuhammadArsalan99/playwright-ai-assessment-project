@@ -9,7 +9,7 @@
 
 | #   | Severity | Area     | Finding                                                                                              |
 | --- | -------- | -------- | ---------------------------------------------------------------------------------------------------- |
-| 1   | Medium   | Checkout | One automated run showed an invoice address different from the checkout form; cause is unconfirmed   |
+| 1   | Medium   | Checkout | Automated checkout showed a different invoice street from the submitted form                         |
 | 2   | Medium   | Checkout | An address with a country, city and postal code that do not belong together is accepted              |
 | 3   | Medium   | Payment  | A card number that fails the standard checksum is accepted                                           |
 | 4   | Medium   | Sign-in  | Anyone can lock the shared customer account                                                          |
@@ -25,22 +25,22 @@
 
 ## Findings
 
-### 1. An automated run showed an invoice address different from the checkout form
+### 1. Automated checkout showed a different invoice street from the submitted form
 
-- **Severity:** Medium; observed in automation once and not reproduced by hand.
+- **Severity:** Medium.
 - **Where:** Checkout, address step, then My invoices.
 - **Steps to reproduce:**
   1. Sign in as the customer, add an in-stock product and proceed to the address step.
   2. Select country Armenia, then enter postal code `123456` and a house number.
-  3. To reproduce the reported automation race, type street and city immediately while the lookup is still pending. Do not use this as the normal checkout flow; those fields are lookup-populated.
+  3. Do not type into street or city; let the postcode lookup populate them.
   4. Continue, pay by credit card and confirm the order.
   5. Open My invoices, open the new invoice and compare its billing address with step 3.
 - **Expected:** The invoice shows the address the form displayed when the order was submitted.
-- **Actual:** In an automated run the form displayed `Test street 654` and `Frankfurt` immediately before continuing, and again at the next step. The invoice for that order showed `Gulgowski Glens` and `South Velvahaven`. Entering the same flow by hand at normal typing speed produced an invoice that matched the form.
-- **Evidence:** Console output of the form values and the invoice values from the same run, and a request log showing the lookup response arriving after the fields were filled (PROMPTS.md entry 19).
-- **Why it matters:** If the invoice persists an address different from the one shown at submission, the order could be sent to an unintended address. The current evidence does not establish that this occurs during normal use.
-- **How the suite handles it:** `CheckoutPage.fillAddress()` does not type street or city, but its non-empty checks do not prove the lookup has finished. The featured test checks that invoice address fields are populated; it does not assert they match the checkout form.
-- **Status:** One automated mismatch observed on 2026-10-07; not reproduced by hand at normal speed. Root cause is unconfirmed.
+- **Actual:** A strict diagnostic comparison in the automated featured checkout recorded `Test street 654` in the form and `Gulgowski Glens` on the invoice. An earlier run also showed `Frankfurt` in the form and `South Velvahaven` on the invoice. A separate manual run at normal typing speed showed matching values.
+- **Evidence:** The focused featured test failed on the street equality assertion on 2026-10-07; the Playwright call log showed the invoice value `Gulgowski Glens` instead of `Test street 654`.
+- **Why it matters:** The invoice may persist a different billing address from the one displayed during checkout, potentially sending an order to an unintended address.
+- **How the suite handles it:** `CheckoutPage.fillAddress()` does not type street or city. Its non-empty checks do not prove the lookup has finished. The featured test checks that invoice address fields are populated, not that they match the form.
+- **Status:** Reproduced by automated featured checkout on 2026-10-07. A separate manual run at normal typing speed showed matching values.
 
 ### 2. An address with a country, city and postal code that do not belong together is accepted
 
@@ -174,7 +174,7 @@
 ### Cart quantity
 
 - Entering `0` or `-5` changes the value to `1`.
-- Entering a quantity above the limit shows an alert that the maximum order is 99.
+- Entering a very large quantity shows the maximum-order alert and corrects the quantity field to exactly `99`; the focused cart test passed with that assertion.
 
 ---
 
