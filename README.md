@@ -33,7 +33,7 @@ npm run test:smoke
 npm run test:ci
 ```
 
-The suite currently targets Chromium. It uses shared live-demo accounts, cart data, products, and order history, which can change between runs. Local full-suite runs use one worker to reduce interference; CI uses four workers. Checkout tests place real orders, and parallel tests may interfere through shared demo state.
+The suite currently targets Chromium. It uses shared live-demo accounts, cart data, products, and order history, which can change between runs. Run the full suite with one worker locally and in CI to reduce interference. Checkout tests place real orders, and external users can still change shared demo state.
 
 ## HTML Report
 
